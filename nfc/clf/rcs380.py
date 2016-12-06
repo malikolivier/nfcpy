@@ -312,8 +312,8 @@ class Chipset(object):
             # cannot be read.
             # See: https://github.com/nfcpy/nfcpy/issues/54
             # This is a dirty hack to return the software version.
-            log.warning("Could not get firmware version. Return unknown.unknown")
-            return "unknown", "unknown"
+            log.warning("Could not get firmware version. Return -1.-1")
+            return -1, -1
         
     def get_pd_data_version(self):
         data = self.send_command(0x22, [])
