@@ -304,12 +304,23 @@ class Chipset(object):
     def get_firmware_version(self, option=None):
         assert option in (None, 0x60, 0x61, 0x80)
         data = self.send_command(0x20, [option] if option else [])
-        # log.debug("firmware version {1:x}.{0:02x}".format(*data))
-        return 1, 11
+        if data is not None:
+            log.debug("firmware version {1:x}.{0:02x}".format(*data))
+            return data
+        else:
+            # Under specific conditions, there are times when firmware version
+            # cannot be read.
+            # See: https://github.com/nfcpy/nfcpy/issues/54
+            # This is a dirty hack to return the software version.
+            log.warning("Could not get firmware version. Return unknown.unknown")
+            return "unknown", "unknown"
         
     def get_pd_data_version(self):
         data = self.send_command(0x22, [])
-        # log.debug("package data format {1:x}.{0:02x}".format(*data))
+        if data is not None:
+            log.debug("package data format {1:x}.{0:02x}".format(*data))
+        else:
+            log.warning("Could not get package data format")
 
     def get_command_type(self):
         data = self.send_command(0x28, [])
