@@ -304,12 +304,12 @@ class Chipset(object):
     def get_firmware_version(self, option=None):
         assert option in (None, 0x60, 0x61, 0x80)
         data = self.send_command(0x20, [option] if option else [])
-        log.debug("firmware version {1:x}.{0:02x}".format(*data))
-        return data
+        # log.debug("firmware version {1:x}.{0:02x}".format(*data))
+        return 1, 11
         
     def get_pd_data_version(self):
         data = self.send_command(0x22, [])
-        log.debug("package data format {1:x}.{0:02x}".format(*data))
+        # log.debug("package data format {1:x}.{0:02x}".format(*data))
 
     def get_command_type(self):
         data = self.send_command(0x28, [])
